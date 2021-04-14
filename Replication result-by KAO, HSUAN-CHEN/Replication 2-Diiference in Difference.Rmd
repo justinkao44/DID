@@ -1,0 +1,127 @@
+---
+title: "Causal Inference-Replication 2-Difference in Difference"
+author: "Kao, Hsuan-Chen"
+date: "4/13/2021"
+output: html_document
+---
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+---
+
+### Github: [DID by KAO, HSUAN-CHEN, PLEASE CLICK](https://github.com/justinkao44/DID.git)
+
+---
+
+```
+For this project, I want you to implement Abadie’s 2005 Restud on semiparametric Diff-in-diff.  
+Use the data cont-ained in nsw_pscore.do at the mixtape chapter, 
+which appends the CPS data to the original job trainings program data. Then answer these questions.
+```
+
+---
+
+## Question:
+
+******
+
+##### 1.	Calculate a propensity score using the same covariates as used in the mixtape only use a series of polynomials for each one.  You will do the following analysis twice: once using a logit, once using OLS, to fit the propensity score.
+
+a.	You will fit a linear probability model (OLS) for one of the following and you will fit a logit for the second.  
+b.	Fit one propensity score using up to a quadratic for each variable for one set of analysis, and a cubic for a separate set of analysis. 
+c.	Create a histogram showing the distribution of the propensity score for the treatment and control group. What is the max and min values of the propensity score for the treatment group?  What is it for the control group?
+d.	Drop all units whose propensity scores are less than 0.1 and more than 0.9 then repeat 1.c.
+
+
+##### 2.	Calculate a before and after first difference for each unit.
+
+##### 3.	Construct a weighted difference-in-differences using the first equation at the following substack entry:
+
+https://causalinf.substack.com/p/callaway-and-santanna-dd-estimator
+
+Ignore inference issues. We are only going to calculate the point estimate. Compare your answers to that I found in the ipw.do program at section 5.3.5 of the Mixtape. I found an ATT of $1806 or $2006 depending on which weighting scheme I used.  Compare your answers to those.
+
+*******
+
+## Replication answer:
+
+
+### 1. OLS Model up to quaratic
+
+![Figure 1: OLS model to quaratic before TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_ols_1_1.png){width=60%}
+
+-The min and max values of the propensity score for the control group : -0.0613921 and 0.1934767.<br>
+-The min and max values of the propensity score for the treatment group : -0.0139237 and 0.1934806.
+
+![Figure 2: OLS model to quaratic after TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_ols_1_2.png){width=60%}
+
+-The min and max values of the propensity score(drop) for the control group : 0.100047 and 0.1934767.<br>
+-The min and max values of the propensity score(drop) for the treatment group : 0.1018124 and 0.1934806.
+
+![Table 1:  ATT for the OLS model to quaratic](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/OLS_quaratic\ Max\&Min.png){width=60%} 
+```
+- ATT under non-normalized weights is -$4,047.76
+- ATT under normalized weights is -$4967.571
+```
+
+### 2. OLS Model up to cube
+
+![Figure 3: OLS model to cube before TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_ols_2_1.png){width=60%}
+
+-The min and max values of the propensity score for the control group : -0.0535283 and 0.2072448.<br>
+-The min and max values of the propensity score for the treatment group : -0.0152693 and 0.20838.
+
+![Figure 4: OLS model to cube after TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_ols_2_2.png){width=60%}
+
+-The min and max values of the propensity score(drop) for the control group : 0.1000906 and 0.2072448.<br>
+-The min and max values of the propensity score(drop) for the treatment group : 0.1011328 and 0.20838.
+
+![Table 2: ATT for the OLS model to cube](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/OLS_cube\ Max\&Min.png){width=60%} 
+```
+- ATT under non-normalized weights is -$2254.879
+- ATT under normalized weights is -$3918.454
+```
+
+### 3. Logit Model up to quaratic
+
+![Figure 5: Logit model to quaratic before TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_logit_1_1.png){width=60%}
+
+-The min and max values of the propensity score for the control group : 2.83e^-10 and 0.8915.<br>
+-The min and max values of the propensity score for the treatment group : 0.0007372 and 0.9015551.
+
+![Figure 6: Logit model to quaratic after TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_logit_1_2.png){width=60%} 
+
+-The min and max values of the propensity score(drop) - for the control group : 0.1002043 and 0.8915.<br>
+-The min and max values of the propensity score(drop) for the treatment group : 0.1065083 and 0.8996394.
+
+![Table 3: ATT for the Logit model to quaratic](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/Logit_quaratic\ Max\&Min.png){width=60%} 
+```
+- ATT under non-normalized weights is $1101.713
+- ATT under normalized weights is $1246.698
+```
+
+### 4. Logit Model up to cube
+
+![Figure 7: Logit model to cube before TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_logit_2_1.png){width=60%} 
+
+-The min and max values of the propensity score for the control group : 5.76e^-09 and 0.9151357.<br>
+-The min and max values of the propensity score for the treatment group : 0.0011628 and 0.9226575.
+
+![Figure 8: Logit model to cube after TRIMMING the propensity score.](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/pscore_logit_2_2.png){width=60%}
+
+-The min and max values of the propensity score(drop) for the control group : 0.100147 and 0.8770798.<br>
+-The min and max values of the propensity score(drop) for the treatment group : 0.1062628 and 0.8985353.
+
+![Table 4: ATT for the Logit model to cube](/Users/justinkao/Desktop/The\ University\ of\ Texas\ at\ Austin/Causal\ Inference/Replication\ 2/GIthub/Data/Logit_cube\ Max\&Min.png){width=60%} 
+```
+- ATT under non-normalized weights is $1,744.356
+- ATT under normalized weights is $1,635.114
+```
+### Conclusion/Comparison
+When we estimate the ATT using the non-normalized weighting procedure before dropping some extreme cases, we find an estimated ATT(normalized and non-normalized) is so much different than what we get using the experimental data.The inverse probability weighting is causing units with very small values of the propensity score to blow up and become unusually influential in the calculation of ATT. Hence, it is better for us to trim the data. Here we will do a very small trim to eliminate the mass of values at the far-left tail. As was mentioned in the mixtape, the good way is to keep only observations between 0.1 and 0.9.
+
+From the results, after we drop the propensity score less than 0.1 and greater than 0.9, our ATT for OLS up to quadratic ones are -$4047.76 under non-normalization and -$4967.571 under normalization, and ATT for OLS up to cube ones are -$2254.879 under non-normalization and -$3918.454 under normalization.  Moreover, the ATT for the logit model up to quadratic ones are $1101.713 under non-normalization and $1246.698 under normalization, and ATT for the logit model up to cube are $1744.356 under non-normalization and $1635.114 under normalization.
+
+All in all,  as long as we use different models to estimate, including the different trim, we can find the results are different. However, which are more reliable, as was mentioned in the book, we still need to calculate standard errors, such as based on a bootstrapping method, to get the more accurate answer.
